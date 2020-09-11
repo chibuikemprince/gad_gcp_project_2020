@@ -1,0 +1,79 @@
+Lab: Creating Virtual Machines
+
+ 
+
+Objectives:
+In this lab, you explore the available options for VMs and see the differences between locations.
+
+In this lab, you learn how to perform the following tasks:
+
+1.Create several standard VMs
+
+2. Create advanced VMs
+
+Task 1: Create a utility virtual machine
+In the Cloud Console, on the Navigation menu (7a91d354499ac9f1.png), click Compute Engine > VM instances.
+Click Create.
+For Name, type a name for your instance. Hover over the question mark icon for advice about what constitutes a properly formed name.
+For Region and Zone select us-central1 and us-central1-c respectively.
+For Machine type, examine the options. 
+For Machine type, click n1-standard-1 (1 vCPUs, 3.75 GB memory).
+Click Management, security, disks, networking, sole tenancy.
+Click Networking.
+For Network interfaces, click the Edit icon (Edit).
+Select None for External IP.
+Click Done.
+Leave the remaining settings as their defaults, and click Create. Wait until the new VM is created.
+
+Command Line:
+gcloud beta compute --project=qwiklabs-gcp-00-ec0cf50ea0e9 instances create princemachine --zone=us-central1-c --machine-type=n1-standard-4 --subnet=default --no-address --maintenance-policy=MIGRATE --service-account=80344991346-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --image=debian-10-buster-v20200910 --image-project=debian-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=princemachine --no-shielded-secure-boot --no-shielded-vtpm --no-shielded-integrity-monitoring --reservation-affinity=any
+
+Explore the VM details
+
+gcloud compute instances describe princemachine --zone=us-central1-c
+
+ Explore the VM logs
+gcloud logging logs list
+
+Task2:
+Create a Windows virtual machine
+Create a VM
+On the Navigation menu (7a91d354499ac9f1.png), click Compute Engine > VM instances.
+Click Create instance.
+
+Specify the following, and leave the remaining settings as their defaults:
+Property	Value (type value or select option as specified)
+Name	princemachinewin
+Region	europe-west2
+Zone	europe-west2-a
+Machine type	n1-standard-2(2 vCPUs, 7.5 GB memory)
+Boot disk	Change
+Public Images > Operating system	Windows Server
+Version	Windows Server 2016 Datacenter Core
+Boot disk type	SSD persistent disk
+Size (GB)	100
+Click Select.
+For Firewall, enable Allow HTTP traffic and Allow HTTPS traffic.
+Click Create.
+
+Command Line:
+
+gcloud beta compute --project=qwiklabs-gcp-00-ec0cf50ea0e9 instances create princemachinewin --zone=europe-west2-a --machine-type=n1-standard-2 --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --service-account=80344991346-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --tags=http-server,https-server --image=windows-server-2016-dc-core-v20200908 --image-project=windows-cloud --boot-disk-size=100GB --boot-disk-type=pd-ssd --boot-disk-device-name=princemachinewin --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any
+  
+  Task 3: Create a custom virtual machine
+Create a VM
+On the Navigation menu (7a91d354499ac9f1.png), click Compute Engine > VM instances.
+Click Create instance.
+Specify the following, and leave the remaining settings as their defaults:
+Property	Value (type value or select option as specified)
+Name	princecustom2
+Region	us-west1
+Zone	us-west1-b
+Machine type	Custom
+Cores	6 vCPU
+Memory	32 GB
+Click Create.
+
+Command:
+  
+gcloud beta compute --project=qwiklabs-gcp-00-ec0cf50ea0e9 instances create princecustom2 --zone=us-west1-b --machine-type=e2-custom-6-32768 --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --service-account=80344991346-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --image=debian-10-buster-v20200910 --image-project=debian-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=princecustom2 --no-shielded-secure-boot --no-shielded-vtpm --no-shielded-integrity-monitoring --reservation-affinity=any
